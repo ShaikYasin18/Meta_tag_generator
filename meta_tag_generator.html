@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meta Tag Generator</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #dd6e42, #e8dab2); /* Earthy gradient */
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #4f6d7a; /* Muted blue-gray text */
+      animation: gradientShift 10s ease-in-out infinite; /* Background gradient animation */
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.85);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #4f6d7a; /* Muted blue-gray */
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+      color: #dd6e42; /* Terracotta for title */
+      text-shadow: 0 0 8px rgba(221, 110, 66, 0.8);
+    }
+
+    h2 {
+      margin-top: 20px;
+      font-size: 1.8rem;
+      color: #dd6e42;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 15px;
+      font-weight: bold;
+      color: #dd6e42; /* Terracotta for labels */
+    }
+
+    input, textarea {
+      padding: 12px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      font-size: 16px;
+      margin-top: 8px;
+      background: rgba(0, 0, 0, 0.05); /* Light grayish background */
+      color: #4f6d7a; /* Muted blue-gray */
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #e8dab2; /* Light beige for focus effect */
+      box-shadow: 0 0 8px rgba(232, 218, 178, 0.5);
+      outline: none;
+    }
+
+    button {
+      margin: 20px 0;
+      padding: 12px;
+      background: linear-gradient(135deg, #e8dab2, #4f6d7a); /* Beige to muted blue-gray gradient */
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      animation: bounce 1s infinite;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(232, 218, 178, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .result {
+      background: rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 15px;
+      border-radius: 8px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      margin-bottom: 10px;
+      color: #4f6d7a;
+      animation: slideUp 0.5s ease-in-out;
+    }
+
+    #resultSection {
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    #copyBtn {
+      background: linear-gradient(135deg, #dd6e42, #e8dab2); /* Terracotta to beige */
+      color: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+    }
+
+    #copyBtn:hover {
+      background: linear-gradient(135deg, #e8dab2, #dd6e42); /* Reverse gradient on hover */
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes gradientShift {
+      0% { background: linear-gradient(135deg, #dd6e42, #e8dab2); }
+      50% { background: linear-gradient(135deg, #e8dab2, #4f6d7a); }
+      100% { background: linear-gradient(135deg, #dd6e42, #e8dab2); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Add Poppins Font */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Meta Tag Generator</h1>
+    <form id="metaForm">
+      <label for="title">Page Title</label>
+      <input type="text" id="title" placeholder="Enter page title">
+
+      <label for="description">Meta Description</label>
+      <textarea id="description" rows="3" placeholder="Enter meta description"></textarea>
+
+      <label for="keywords">Meta Keywords</label>
+      <input type="text" id="keywords" placeholder="Enter meta keywords (comma separated)">
+
+      <button type="button" id="generateBtn">Generate Meta Tags</button>
+    </form>
+
+    <div id="resultSection">
+      <h2>Generated Meta Tags</h2>
+      <div class="result" id="result"></div>
+      <button id="copyBtn">Copy to Clipboard</button>
+    </div>
+  </div>
+
+  <script>
+    // Event listener to generate meta tags when the button is clicked
+    document.getElementById('generateBtn').addEventListener('click', function() {
+      var title = document.getElementById('title').value.trim();
+      var description = document.getElementById('description').value.trim();
+      var keywords = document.getElementById('keywords').value.trim();
+
+      var metaTags = "";
+      
+      if(title) {
+        metaTags += "<title>" + title + "</title>\n";
+      }
+      if(description) {
+        metaTags += '<meta name="description" content="' + description.replace(/"/g, '&quot;') + '">\n';
+      }
+      if(keywords) {
+        metaTags += '<meta name="keywords" content="' + keywords.replace(/"/g, '&quot;') + '">\n';
+      }
+
+      document.getElementById('result').innerText = metaTags;
+      document.getElementById('resultSection').style.display = 'block';
+    });
+
+    // Event listener for the "Copy to Clipboard" button
+    document.getElementById('copyBtn').addEventListener('click', function() {
+      var resultText = document.getElementById('result').innerText;
+      navigator.clipboard.writeText(resultText).then(function() {
+        alert('Meta tags copied to clipboard!');
+      }, function(err) {
+        alert('Failed to copy text: ' + err);
+      });
+    });
+  </script>
+</body>
+</html>
